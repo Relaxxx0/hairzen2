@@ -1,9 +1,10 @@
 import { SERVICES, serviceMessage, waLink } from "../data/site";
 import { cssVars } from "../hooks/motion";
 import { useLang } from "../i18n";
+import { SERVICE_PAGE, pagePath } from "../content/services";
 
 export default function Services() {
-  const { t } = useLang();
+  const { t, lang } = useLang();
   return (
     <section id="hizmetler" className="section" aria-labelledby="hizmet-baslik">
       <div className="wrap">
@@ -15,7 +16,7 @@ export default function Services() {
           {SERVICES.map((s, i) => (
             <article className="pkg" key={s.name}>
               <span className="pkg-no">{String(i + 1).padStart(2, "0")}</span>
-              <h3>{t(s.name)}</h3>
+              <h3><a href={pagePath(lang, SERVICE_PAGE[s.name])}>{t(s.name)}</a></h3>
               <p>{t(s.text)}</p>
               <ul>{s.items.map(it => <li key={it}>{t(it)}</li>)}</ul>
               <a className="pkg-cta" href={waLink(serviceMessage(s.name, t))} target="_blank" rel="noopener">{t("Detaylı bilgi al")}</a>

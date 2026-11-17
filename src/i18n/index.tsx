@@ -1,3 +1,4 @@
+import { pagePath, pageFromPath } from "../content/services";
 import { createContext, useCallback, useContext, useEffect, useMemo, type ReactNode } from "react";
 import en from "./en.json";
 import de from "./de.json";
@@ -81,7 +82,7 @@ export function LangProvider({ lang, children }: { lang: Lang; children: ReactNo
 
   const setLang = useCallback((l: Lang) => {
     store("hz-lang", l);
-    if (l !== lang) location.href = langPath(l) + location.hash;
+    if (l !== lang) location.href = pagePath(l, pageFromPath(location.pathname)) + location.hash;
   }, [lang]);
 
   const value = useMemo(() => ({ lang, locale: LOCALE[lang], t, setLang }), [lang, t, setLang]);

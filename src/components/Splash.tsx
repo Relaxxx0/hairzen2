@@ -19,12 +19,16 @@ interface Spark {
 const COLS = 10, ROWS = 3;
 const clamp = (v: number) => Math.min(1, Math.max(0, v));
 const span = (p: number, a: number, b: number) => clamp((p - a) / (b - a));
-const rnd = (a: number, b: number) => a + Math.random() * (b - a);
+// Seeded so the server-rendered and the client-rendered splash are identical (hydration).
+const prng = (s: number) => () => (s = (s * 1664525 + 1013904223) % 4294967296) / 4294967296;
+let rng = prng(1);
+const rnd = (a: number, b: number) => a + rng() * (b - a);
 const easeIn = (t: number) => t * t * t;
 const easeOut = (t: number) => 1 - Math.pow(1 - t, 3);
 
 /** Shatters the logo into jittered triangles. */
 function makeShards(): Shard[] {
+  rng = prng(11);
   const pts: Point[][] = [];
   for (let r = 0; r <= ROWS; r++) {
     pts.push([]);
@@ -65,6 +69,7 @@ function makeShards(): Shard[] {
 }
 
 function makeSparks(): Spark[] {
+  rng = prng(23);
   return Array.from({ length: 36 }, (_, i) => {
     const gold = i % 3 === 0;
     const ang = rnd(0, Math.PI * 2);
@@ -173,7 +178,7 @@ export default function Splash() {
       <div className="splash-stage">
         <div className="splash-glow" aria-hidden="true" ref={glowRef} />
         <div className="splash-logo" id="splash-logo" ref={logoRef}>
-          <img className="splash-whole" src="/hairzen-logo.svg" alt="Hairzen" width={191} height={45} />
+          <img className="splash-whole" fetchPriority="high" src="/hairzen-logo.svg" alt="Hairzen" width={191} height={45} />
           {shards.map((s, i) => (
             <div className="shard" aria-hidden="true" key={i} style={s.box} ref={el => { shardRefs.current[i] = el; }}>
               <img src="/hairzen-logo.svg" alt="" width={191} height={45} style={s.img} />

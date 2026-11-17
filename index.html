@@ -3,14 +3,31 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Hairzen Saç Ekimi Kliniği, Ataşehir İstanbul</title>
-<meta name="description" content="Hairzen: FUE, DHI ve Safir FUE ile saç ekimi. Evrenizi görün, 4 fotoğraf gönderin, doktorumuz 24 saat içinde greft planınızı çıkarsın.">
+<!--head-->
 <meta name="theme-color" content="#0E1B3D">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;700&family=Young+Serif&display=swap" rel="stylesheet">
-<script>(function(){var d=document.documentElement,L=["tr","en","de","ar"],q=new URLSearchParams(location.search).get("lang"),s=null;d.classList.replace("no-js","js");try{s=localStorage.getItem("hz-lang")||sessionStorage.getItem("hz-geo-lang")}catch(e){}var l=L.indexOf(q)>-1?q:L.indexOf(s)>-1?s:null;if(l){d.lang=l;d.dir=l==="ar"?"rtl":"ltr"}else d.classList.add("hz-lang-wait");window.HZ_INITIAL_LANG=l})()</script>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230F3B33'/%3E%3Cpath d='M9 22c3-9 11-9 14 0' stroke='%235A2FD6' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;700&family=Young+Serif&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;700&family=Young+Serif&display=swap"></noscript>
+<script>
+// On the Turkish home page, send returning or foreign visitors to their language (never crawlers).
+(function () {
+  var d = document.documentElement, L = ["en", "de", "ar"], p = location.pathname, m = null, g = null;
+  d.classList.replace("no-js", "js");
+  if (p !== "/" && p !== "/index.html") return;
+  if (/bot|crawl|spider|slurp|lighthouse|facebookexternalhit|whatsapp|telegram/i.test(navigator.userAgent)) return;
+  try { m = localStorage.getItem("hz-lang"); g = sessionStorage.getItem("hz-geo-lang"); } catch (e) {}
+  var go = function (l) { location.replace("/" + l + "/" + location.search + location.hash); };
+  if (m) { if (L.indexOf(m) > -1) go(m); return; }
+  if (g) { if (L.indexOf(g) > -1) go(g); return; }
+  // Turkish-language browsers stay here without waiting for the country lookup (fast first paint).
+  if (/^tr\b/i.test(navigator.language || "")) return;
+  d.classList.add("hz-lang-wait");
+})();
+</script>
 </head>
 <body>
 <div id="root"></div>
