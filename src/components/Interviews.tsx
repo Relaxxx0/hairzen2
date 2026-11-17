@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { INTERVIEWS } from "../data/site";
 import { cssVars } from "../hooks/motion";
 import { useLang } from "../i18n";
@@ -8,6 +8,14 @@ export default function Interviews() {
   const videos = useRef<(HTMLVideoElement | null)[]>([]);
   const [playing, setPlaying] = useState<number | null>(null);
   const [withControls, setWithControls] = useState<number | null>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+  // Posters load only when the section comes near, so they don't slow down the first screen.
+  const [near, setNear] = useState(false);
+  useEffect(() => {
+    const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setNear(true); io.disconnect(); } }, { rootMargin: "800px" });
+    io.observe(sectionRef.current!);
+    return () => io.disconnect();
+  }, []);
 
   const pauseOthers = (i: number) =>
     videos.current.forEach((v, j) => { if (v && j !== i) v.pause(); });
@@ -25,7 +33,7 @@ export default function Interviews() {
   };
 
   return (
-    <section id="roportajlar" className="section interviews" aria-labelledby="roportaj-baslik">
+    <section id="roportajlar" className="section interviews" aria-labelledby="roportaj-baslik" ref={sectionRef}>
       <div className="wrap">
         <div className="section-head">
           <h2 data-reveal="mask" id="roportaj-baslik">{t("Danışanlarımızla röportajlar")}</h2>
@@ -35,7 +43,7 @@ export default function Interviews() {
           {INTERVIEWS.map((v, i) => (
             <figure className={`vcard${playing === i ? " playing" : ""}`} key={v.src}>
               <div className="vcard-media">
-                <video src={v.src} poster={v.poster} preload="none" playsInline width={720} height={1280}
+                <video src={v.src} poster={near ? v.poster : undefined} preload="none" playsInline width={720} height={1280}
                   controls={withControls === i}
                   ref={el => { videos.current[i] = el; }}
                   onPlay={() => { setPlaying(i); pauseOthers(i); }}

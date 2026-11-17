@@ -8,7 +8,7 @@ export default function Pricing() {
     <section id="fiyat" className="section section-tinted" aria-labelledby="fiyat-baslik">
       <div className="wrap">
         <div className="section-head">
-          <h2 data-reveal="mask" id="fiyat-baslik">{t("Fiyatlar ve paketler")}</h2>
+          <h2 data-reveal="mask" id="fiyat-baslik">{t("Saç ekimi fiyatları ve paketler")}</h2>
           <p data-reveal style={cssVars({ "--i": 1 })}><b className="gold-name">{t("Hairzen Klinik")}</b> {t("saçlarınız için size en iyi hizmeti ve tedaviyi sunacaktır. Size uygun paketin güncel fiyatını analiz sonrası yazılı olarak iletiriz.")}</p>
         </div>
         <div className="plan-grid" data-reveal="list">

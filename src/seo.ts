@@ -4,6 +4,7 @@ import ar from "./i18n/ar.json";
 import { ADDRESS, DOCTOR, FAQ, PHONE_DISPLAY, SOCIAL, WHATSAPP_NUMBER } from "./data/site";
 import { SEARCH_CONSOLE_VERIFICATION } from "./config";
 import type { Lang } from "./i18n";
+import { CONTENT, pagePath, type PageId } from "./content/services";
 
 const DICT: Record<Lang, Record<string, string>> = { tr: {}, en, de, ar };
 const tr = (lang: Lang, s: string) => DICT[lang][s] || s;
@@ -13,16 +14,21 @@ const OG_LOCALE: Record<Lang, string> = { tr: "tr_TR", en: "en_US", de: "de_DE",
 
 export const TITLES: Record<Lang, string> = {
   tr: "Saç Ekimi İstanbul Ataşehir | DHI ve Safir FUE | Hairzen",
-  en: "Hair Transplant Istanbul | DHI & Sapphire FUE | Hairzen",
-  de: "Haartransplantation Istanbul | DHI & Saphir-FUE | Hairzen",
-  ar: "زراعة الشعر في إسطنبول | DHI وFUE الياقوتية | Hairzen",
+  en: "Hair Transplant Turkey, Istanbul | DHI & Sapphire FUE | Hairzen",
+  de: "Haartransplantation Türkei, Istanbul | DHI & Saphir-FUE | Hairzen",
+  ar: "زراعة الشعر في تركيا، إسطنبول | DHI وFUE الياقوتية | Hairzen",
 };
-const DESCRIPTION_TR = "Hairzen: FUE, DHI ve Safir FUE ile saç ekimi. Evrenizi görün, 4 fotoğraf gönderin, doktorumuz 24 saat içinde greft planınızı çıkarsın.";
-export const description = (lang: Lang) => tr(lang, DESCRIPTION_TR);
+const DESCRIPTIONS: Record<Lang, string> = {
+  tr: "İstanbul Anadolu yakası, Ataşehir'de FUE, DHI ve Safir FUE ile saç ekimi. Saç ekimi fiyatları için 4 fotoğraf gönderin, 24 saat içinde greft planınızı alın.",
+  en: "Hair transplant in Istanbul, Turkey with FUE, DHI and Sapphire FUE. Send 4 photos for a free analysis and get your graft plan and package cost within 24 hours.",
+  de: "Haartransplantation in Istanbul, Türkei mit FUE, DHI und Saphir-FUE. Senden Sie 4 Fotos für eine kostenlose Analyse und erhalten Sie Graft-Plan und Kosten in 24 Stunden.",
+  ar: "زراعة الشعر في إسطنبول، تركيا بتقنيات FUE وDHI وFUE الياقوتية. أرسل 4 صور لتحليل مجاني واحصل على خطة البصيلات وتكلفة الباقة خلال 24 ساعة.",
+};
+export const description = (lang: Lang) => DESCRIPTIONS[lang];
 
 const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
 
-function structuredData(lang: Lang, site: string) {
+function structuredData(lang: Lang, site: string, pageId: PageId | null) {
   const url = site + PATHS[lang];
   const clinic = {
     "@type": "MedicalClinic",
@@ -54,39 +60,58 @@ function structuredData(lang: Lang, site: string) {
       sameAs: `https://www.instagram.com/${DOCTOR.instagram.replace("@", "")}/`,
     },
   };
+  const content = pageId ? CONTENT[pageId][lang] : null;
+  const faqItems = content ? content.faq : FAQ.map(f => ({ q: tr(lang, f.q), a: tr(lang, f.a) }));
   const faq = {
     "@type": "FAQPage",
-    mainEntity: FAQ.map(f => ({
+    mainEntity: faqItems.map(f => ({
       "@type": "Question",
-      name: tr(lang, f.q),
-      acceptedAnswer: { "@type": "Answer", text: tr(lang, f.a) },
+      name: f.q,
+      acceptedAnswer: { "@type": "Answer", text: f.a },
     })),
   };
-  const page = { "@type": "WebPage", url, name: TITLES[lang], inLanguage: lang, about: { "@id": clinic["@id"] } };
-  return JSON.stringify({ "@context": "https://schema.org", "@graph": [clinic, page, faq] }).replace(/</g, "\\u003c");
+  const pageUrl = site + pagePath(lang, pageId);
+  const page = {
+    "@type": "WebPage", url: pageUrl, name: content ? content.title : TITLES[lang], inLanguage: lang,
+    about: content && pageId !== "prices" ? { "@type": "MedicalProcedure", name: content.nav } : { "@id": clinic["@id"] },
+    provider: content ? { "@id": clinic["@id"] } : undefined,
+  };
+  const graph: object[] = [clinic, page, faq];
+  if (content) graph.push({
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Hairzen", item: url },
+      { "@type": "ListItem", position: 2, name: content.nav, item: pageUrl },
+    ],
+  });
+  return JSON.stringify({ "@context": "https://schema.org", "@graph": graph }).replace(/</g, "\\u003c");
 }
 
-/** Everything that goes into <head> for one language page. `site` has no trailing slash ("" if unknown). */
-export function headTags(lang: Lang, site: string) {
+/** Everything that goes into <head> for one page. `site` has no trailing slash ("" if unknown). */
+export function headTags(lang: Lang, site: string, pageId: PageId | null = null) {
   const abs = (p: string) => site + p;
+  const content = pageId ? CONTENT[pageId][lang] : null;
+  const title = content ? content.title : TITLES[lang];
+  const desc = content ? content.description : description(lang);
+  const path = pagePath(lang, pageId);
   const tags = [
-    `<title>${esc(TITLES[lang])}</title>`,
-    `<meta name="description" content="${esc(description(lang))}">`,
-    `<link rel="canonical" href="${abs(PATHS[lang])}">`,
-    ...(Object.keys(PATHS) as Lang[]).map(l => `<link rel="alternate" hreflang="${l}" href="${abs(PATHS[l])}">`),
-    `<link rel="alternate" hreflang="x-default" href="${abs(PATHS.en)}">`,
+    `<title>${esc(title)}</title>`,
+    `<meta name="description" content="${esc(desc)}">`,
+    `<link rel="canonical" href="${abs(path)}">`,
+    ...(Object.keys(PATHS) as Lang[]).map(l => `<link rel="alternate" hreflang="${l}" href="${abs(pagePath(l, pageId))}">`),
+    `<link rel="alternate" hreflang="x-default" href="${abs(pagePath("en", pageId))}">`,
     `<meta property="og:type" content="website">`,
     `<meta property="og:site_name" content="Hairzen Clinic">`,
-    `<meta property="og:title" content="${esc(TITLES[lang])}">`,
-    `<meta property="og:description" content="${esc(description(lang))}">`,
-    `<meta property="og:url" content="${abs(PATHS[lang])}">`,
+    `<meta property="og:title" content="${esc(title)}">`,
+    `<meta property="og:description" content="${esc(desc)}">`,
+    `<meta property="og:url" content="${abs(path)}">`,
     `<meta property="og:image" content="${abs("/og-image.png")}">`,
     `<meta property="og:image:width" content="1200">`,
     `<meta property="og:image:height" content="630">`,
     `<meta property="og:image:alt" content="Hairzen">`,
     `<meta property="og:locale" content="${OG_LOCALE[lang]}">`,
     `<meta name="twitter:card" content="summary_large_image">`,
-    `<script type="application/ld+json">${structuredData(lang, site)}</script>`,
+    `<script type="application/ld+json">${structuredData(lang, site, pageId)}</script>`,
   ];
   if (SEARCH_CONSOLE_VERIFICATION) tags.push(`<meta name="google-site-verification" content="${esc(SEARCH_CONSOLE_VERIFICATION)}">`);
   return tags.join("\n");

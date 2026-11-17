@@ -10,7 +10,7 @@ export default function Doctor() {
       <div className="wrap ekimci-grid">
         <figure className="ekimci-photo" data-reveal="photo">
           <img src="/ekimci.jpg" srcSet="/ekimci-560.jpg 560w, /ekimci.jpg 895w" sizes="(max-width: 960px) 92vw, 42vw"
-            width={895} height={893} decoding="async"
+            width={895} height={893} loading="lazy" decoding="async"
             alt={t("Doğukan Denli, operasyon sırasında hastanın saç çizgisini hazırlıyor")} />
         </figure>
         <div className="ekimci-info">

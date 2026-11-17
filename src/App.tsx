@@ -17,9 +17,12 @@ import AnalysisForm from "./components/AnalysisForm";
 import Footer from "./components/Footer";
 import WhatsAppFab from "./components/WhatsAppFab";
 import ConsentBanner from "./components/ConsentBanner";
+import ServicePage from "./components/ServicePage";
+import { langPath } from "./i18n";
+import type { PageId } from "./content/services";
 
-export default function App() {
-  const { t } = useLang();
+export default function App({ page = null }: { page?: PageId | null }) {
+  const { t, lang } = useLang();
   // The scalp map and the form share the Norwood stage; "0" (unsure) only exists in the form.
   const [mapStage, setMapStage] = useState(4);
   const [formStage, setFormStage] = useState(4);
@@ -30,6 +33,20 @@ export default function App() {
 
   const pickOnMap = (n: number) => { setMapStage(n); setFormStage(n); };
   const pickInForm = (n: number) => { setFormStage(n); if (n >= 1) setMapStage(n); };
+
+  if (page) {
+    const base = langPath(lang);
+    return (
+      <>
+        <a className="skip" href="#icerik">{t("İçeriğe geç")}</a>
+        <Header base={base} />
+        <main id="icerik"><ServicePage page={page} /></main>
+        <Footer base={base} />
+        <WhatsAppFab />
+        <ConsentBanner />
+      </>
+    );
+  }
 
   return (
     <>

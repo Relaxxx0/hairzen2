@@ -2,6 +2,7 @@ import { useState, type KeyboardEvent } from "react";
 import { ADDRESS, PHONE_DISPLAY, SOCIAL, WHATSAPP_NUMBER, waLink } from "../data/site";
 import { ClockIcon, InstagramIcon, PhoneIcon, TikTokIcon, WhatsAppIcon, YouTubeIcon } from "./Icons";
 import { useLang } from "../i18n";
+import { SERVICE_PAGE, pagePath } from "../content/services";
 
 const ADDRESS_Q = encodeURIComponent(ADDRESS).replace(/%2F/g, "/");
 
@@ -32,17 +33,17 @@ function LocationCard() {
   );
 }
 
-export default function Footer() {
-  const { t } = useLang();
+export default function Footer({ base = "" }: { base?: string }) {
+  const { t, lang } = useLang();
   return (
     <footer className="site-footer">
       <div className="wrap">
         <div className="footer-cols">
           <div className="footer-brand">
-            <a className="logo logo-footer" href="#intro" aria-label={t("Hairzen, sayfanın başına dön")}>
+            <a className="logo logo-footer" href={base || "#intro"} aria-label={t("Hairzen, sayfanın başına dön")}>
               <img src="/hairzen-logo.svg" alt="Hairzen" width={191} height={45} />
             </a>
-            <p>{t("2016'dan bu yana 5.000'i aşkın danışana saç ekimi. Saç çizginiz, Doğukan Denli tarafından size özel tasarlanır.")}</p>
+            <p>{t("İstanbul Anadolu yakasında, Ataşehir'de 2016'dan bu yana 5.000'i aşkın danışana saç ekimi. Saç çizginiz, Doğukan Denli tarafından size özel tasarlanır.")}</p>
             <ul className="social">
               <li><a href={SOCIAL.instagram} target="_blank" rel="noopener" aria-label="Instagram: hairzenclinic"><InstagramIcon /></a></li>
               <li><a href={SOCIAL.tiktok} target="_blank" rel="noopener" aria-label="TikTok: hairzenclinic"><TikTokIcon /></a></li>
@@ -53,18 +54,18 @@ export default function Footer() {
           <nav aria-label={t("Hizmetler")}>
             <h3>{t("Hizmetler")}</h3>
             <ul>
-              {["FUE Saç Ekimi", "DHI Saç Ekimi", "Sakal Ekimi", "Kadın Saç Ekimi"].map(s => <li key={s}><a href="#hizmetler">{t(s)}</a></li>)}
+              {["FUE Saç Ekimi", "DHI Saç Ekimi", "Sakal Ekimi", "Kadın Saç Ekimi"].map(s => <li key={s}><a href={pagePath(lang, SERVICE_PAGE[s])}>{t(s)}</a></li>)}
             </ul>
           </nav>
           <nav aria-label={t("Kurumsal")}>
             <h3>{t("Kurumsal")}</h3>
             <ul>
-              <li><a href="#ekimci">{t("Doktorumuz")}</a></li>
-              <li><a href="#neden">{t("Neden Hairzen")}</a></li>
-              <li><a href="#fiyat">{t("Fiyatlar")}</a></li>
-              <li><a href="#yorumlar">{t("Danışan yorumları")}</a></li>
-              <li><a href="#roportajlar">{t("Röportajlar")}</a></li>
-              <li><a href="#sss">{t("Sık sorulanlar")}</a></li>
+              <li><a href={base + "#ekimci"}>{t("Doktorumuz")}</a></li>
+              <li><a href={base + "#neden"}>{t("Neden Hairzen")}</a></li>
+              <li><a href={pagePath(lang, "prices")}>{t("Fiyatlar")}</a></li>
+              <li><a href={base + "#yorumlar"}>{t("Danışan yorumları")}</a></li>
+              <li><a href={base + "#roportajlar"}>{t("Röportajlar")}</a></li>
+              <li><a href={base + "#sss"}>{t("Sık sorulanlar")}</a></li>
             </ul>
           </nav>
           <div>

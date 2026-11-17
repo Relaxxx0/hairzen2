@@ -699,3 +699,26 @@ img, svg { display: block; }
 .consent .consent-no { border: 1px solid rgba(255,255,255,.3); background: transparent; color: #fff; }
 [dir="rtl"] .consent { right: auto; left: clamp(1rem, 2.5vw, 1.5rem); }
 @media (max-width: 560px) { .consent { left: 4.5rem; right: .75rem; max-width: none; } [dir="rtl"] .consent { left: .75rem; right: 4.5rem; } }
+
+/* Service pages */
+.pkg h3 a { color: inherit; text-decoration: none; }
+.pkg h3 a:hover { text-decoration: underline; text-underline-offset: .2em; }
+.svc-hero { background: var(--scrub); color: #fff; padding: clamp(7.5rem, 14vw, 10rem) 0 clamp(3rem, 7vw, 5rem); }
+.svc-hero h1 { color: #fff; max-width: 22ch; margin: .8rem 0 1.2rem; }
+.svc-lead { color: rgba(255,255,255,.8); max-width: 44rem; font-size: 1.12rem; }
+.crumbs { font-size: .9rem; color: rgba(255,255,255,.6); }
+.crumbs a { color: #D9B54A; text-decoration: none; }
+.svc-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.6rem; margin-top: 2rem; }
+.svc-actions .btn svg { width: 1.2em; height: 1.2em; }
+.svc-line { color: #fff; text-underline-offset: .25em; }
+.svc-body { display: grid; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); gap: 2.5rem 3.5rem; }
+.svc-body h2 { font-size: clamp(1.35rem, 2.3vw, 1.75rem); margin-bottom: .7rem; }
+.svc-body p { color: var(--ink-soft); }
+.svc-steps-box { grid-column: 1 / -1; }
+.svc-steps { list-style: none; padding: 0; margin: 0; counter-reset: step; display: grid; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); gap: 1rem; }
+.svc-steps li { counter-increment: step; position: relative; padding: 1.1rem 1.1rem 1.1rem 3.4rem; border: 1px solid var(--mist); border-radius: 14px; background: #fff; color: var(--ink-soft); }
+.svc-steps li::before { content: counter(step); position: absolute; inset-inline-start: 1rem; top: 1rem; width: 1.7rem; height: 1.7rem; border-radius: 50%; display: grid; place-items: center; background: var(--scrub); color: #D9B54A; font-weight: 700; font-size: .85rem; }
+.svc-links { list-style: none; padding: 0; margin: 1.5rem 0 0; display: flex; flex-wrap: wrap; gap: .8rem; }
+.svc-links a { display: inline-block; padding: .7rem 1.2rem; border: 1px solid var(--mist); border-radius: 999px; color: inherit; text-decoration: none; transition: border-color .2s, color .2s; }
+.svc-links a:hover { border-color: #2F5BEA; color: #2F5BEA; }
+[dir="rtl"] .svc-steps li { padding: 1.1rem 3.4rem 1.1rem 1.1rem; }
