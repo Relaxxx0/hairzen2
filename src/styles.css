@@ -545,7 +545,7 @@ img, svg { display: block; }
 }
 
 /* ---------- Entry: logo burst on scroll ---------- */
-.splash { position: relative; height: 320vh; background: var(--scrub); color: var(--on-dark); }
+.splash { position: relative; height: 160vh; background: var(--scrub); color: var(--on-dark); }
 .splash-stage { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; display: grid; place-items: center; perspective: 900px; }
 .splash-stage > * { grid-area: 1 / 1; }
 .splash-glow { width: 70vmin; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(closest-side, rgba(47,91,234,.45), rgba(47,91,234,0)); opacity: .35; will-change: transform, opacity; }
