@@ -173,10 +173,10 @@ export default function Splash() {
       <div className="splash-stage">
         <div className="splash-glow" aria-hidden="true" ref={glowRef} />
         <div className="splash-logo" id="splash-logo" ref={logoRef}>
-          <img className="splash-whole" src="hairzen-logo.svg" alt="Hairzen" width={191} height={45} />
+          <img className="splash-whole" src="/hairzen-logo.svg" alt="Hairzen" width={191} height={45} />
           {shards.map((s, i) => (
             <div className="shard" aria-hidden="true" key={i} style={s.box} ref={el => { shardRefs.current[i] = el; }}>
-              <img src="hairzen-logo.svg" alt="" width={191} height={45} style={s.img} />
+              <img src="/hairzen-logo.svg" alt="" width={191} height={45} style={s.img} />
             </div>
           ))}
         </div>

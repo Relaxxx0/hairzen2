@@ -18,7 +18,7 @@ export default function Header() {
     <header className={`site-header${compact ? " compact" : ""}`} ref={ref}>
       <div className="wrap header-row">
         <a className="logo" href="#" aria-label={t("Hairzen ana sayfa")}>
-          <img src="hairzen-logo.svg" alt="Hairzen" width={191} height={45} />
+          <img src="/hairzen-logo.svg" alt="Hairzen" width={191} height={45} />
         </a>
         <nav aria-label={t("Ana menü")}>
           <ul className="nav-list">

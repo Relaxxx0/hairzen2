@@ -40,7 +40,7 @@ export default function Footer() {
         <div className="footer-cols">
           <div className="footer-brand">
             <a className="logo logo-footer" href="#intro" aria-label={t("Hairzen, sayfanın başına dön")}>
-              <img src="hairzen-logo.svg" alt="Hairzen" width={191} height={45} />
+              <img src="/hairzen-logo.svg" alt="Hairzen" width={191} height={45} />
             </a>
             <p>{t("2016'dan bu yana 5.000'i aşkın danışana saç ekimi. Saç çizginiz, Doğukan Denli tarafından size özel tasarlanır.")}</p>
             <ul className="social">

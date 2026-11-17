@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState, type FormEvent } from "react";
 import { waLink } from "../data/site";
+import { track } from "../analytics";
 import { FieldIcon, WhatsAppIcon } from "./Icons";
 import { useLang } from "../i18n";
 
@@ -58,6 +59,7 @@ export default function AnalysisForm({ stage, onStageChange }: Props) {
       files.length ? t("Fotoğraflarımı ({n} adet) bu sohbete ekliyorum.", { n: files.length }) : t("Fotoğraflarımı bu sohbete ekliyorum."),
     ].join("\n");
     const url = waLink(text);
+    track("generate_lead", { method: "analysis_form", photos: files.length });
     window.open(url, "_blank", "noopener");
     setSentUrl(url);
     setSentCount(c => c + 1);

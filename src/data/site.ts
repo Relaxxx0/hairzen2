@@ -97,9 +97,9 @@ export const TESTIMONIALS = [
 ];
 
 export const INTERVIEWS = [
-  { src: "hairzen1.mp4", poster: "hairzen1.jpg", duration: "1:16" },
-  { src: "hairzen2.mp4", poster: "hairzen2.jpg", duration: "1:30" },
-  { src: "hairzen3.mp4", poster: "hairzen3.jpg", duration: "1:30" },
+  { src: "/hairzen1.mp4", poster: "/hairzen1.jpg", duration: "1:16" },
+  { src: "/hairzen2.mp4", poster: "/hairzen2.jpg", duration: "1:30" },
+  { src: "/hairzen3.mp4", poster: "/hairzen3.jpg", duration: "1:30" },
 ];
 
 export const FAQ = [

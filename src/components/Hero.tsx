@@ -198,6 +198,7 @@ export default function Hero({ stage, onStageChange }: Props) {
       <div className="wrap hero-grid">
         <div className="hero-copy">
           <h1 id="hero-baslik">
+            <span className="h1-kicker">{t("İstanbul Ataşehir'de saç ekimi")}</span>{" "}
             {["Saç çizginizi", "önce birlikte", "çizelim."].map((line, i) => (
               <Fragment key={i}>
                 <span className="line" style={cssVars({ "--i": i })}><span>{t(line)}</span></span>{i < 2 ? " " : ""}

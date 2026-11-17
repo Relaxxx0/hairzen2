@@ -688,3 +688,14 @@ img, svg { display: block; }
 [dir="rtl"] .fact-handle { text-align: right; }
 [dir="rtl"] input[type="tel"] { direction: ltr; text-align: right; }
 @media (max-width: 640px) { .legend span { white-space: normal; } }
+.hero h1 { max-width: none; }
+.hero h1 .line { max-width: 11ch; }
+.h1-kicker { display: block; margin-bottom: 1.1rem; font: 600 clamp(.8rem, 1.6vw, .95rem)/1.3 var(--sans); letter-spacing: .12em; text-transform: uppercase; color: #D9B54A; }
+.consent { position: fixed; z-index: 70; right: clamp(1rem, 2.5vw, 1.5rem); bottom: clamp(1rem, 2.5vw, 1.5rem); max-width: 22rem; padding: 1rem 1.1rem; border: 1px solid rgba(255,255,255,.14); border-radius: 14px; background: #0E1B3D; color: var(--on-dark); box-shadow: 0 18px 40px -16px rgba(0,0,0,.6); font-size: .85rem; line-height: 1.5; }
+.consent p { margin: 0 0 .8rem; color: var(--on-dark-soft); }
+.consent-actions { display: flex; gap: .5rem; }
+.consent button { flex: 1; min-height: 2.25rem; border-radius: 999px; font: 600 .85rem/1 var(--sans); cursor: pointer; }
+.consent .consent-yes { border: 0; background: var(--marker); color: #fff; }
+.consent .consent-no { border: 1px solid rgba(255,255,255,.3); background: transparent; color: #fff; }
+[dir="rtl"] .consent { right: auto; left: clamp(1rem, 2.5vw, 1.5rem); }
+@media (max-width: 560px) { .consent { left: 4.5rem; right: .75rem; max-width: none; } [dir="rtl"] .consent { left: .75rem; right: 4.5rem; } }

@@ -16,6 +16,7 @@ import Faq from "./components/Faq";
 import AnalysisForm from "./components/AnalysisForm";
 import Footer from "./components/Footer";
 import WhatsAppFab from "./components/WhatsAppFab";
+import ConsentBanner from "./components/ConsentBanner";
 
 export default function App() {
   const { t } = useLang();
@@ -50,6 +51,7 @@ export default function App() {
       </main>
       <Footer />
       <WhatsAppFab />
+      <ConsentBanner />
     </>
   );
 }
