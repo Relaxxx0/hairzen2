@@ -687,7 +687,7 @@ img, svg { display: block; }
 .lang-opt[aria-selected="true"] .lang-name { color: #2F5BEA; font-weight: 700; }
 .lang-name { flex: 1; }
 .lang-code { color: var(--ink-soft); font-size: .76rem; letter-spacing: .05em; }
-.flag { width: 1.4rem; height: auto; aspect-ratio: 4 / 3; display: block; border-radius: 2.5px; box-shadow: 0 0 0 1px rgba(14,27,61,.18); flex: none; }
+.flag { height: 1rem; width: auto; display: block; border-radius: 2px; box-shadow: 0 0 0 1px rgba(14,27,61,.16); flex: none; }
 .lang-menu + .btn-small { margin-left: 0 !important; }
 :root[lang="ar"] { --sans: "Onest", "IBM Plex Sans Arabic", "Segoe UI", sans-serif; --serif: "Young Serif", "Noto Naskh Arabic", Georgia, serif; }
 :root[lang="ar"] body, :root[lang="ar"] body * { letter-spacing: 0 !important; }
