@@ -35,7 +35,7 @@ export const DOCTOR = {
   role: "Saç ekimi alanında deneyimli uzman",
   lead: "Saç çizgisini yüz yapınıza, yaşınıza ve donör bölgenizin kapasitesine göre kendisi tasarlar. İlk görüşmeden 12. ay kontrolüne kadar süreci bizzat takip eder.",
   career: ["Hair Transplantation (FUE/DHI) Training"],
-  instagram: "@dogukandenli",
+  instagram: "@hairzenclinic",
   skills: ["Safir FUE", "DHI", "Saç çizgisi tasarımı", "Tıraşsız ekim", "Sakal ve kaş ekimi", "Kadın saç ekimi"],
 };
 
