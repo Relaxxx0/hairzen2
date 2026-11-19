@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Hairzen Favicon PNG Generator</title>
+  <style>
+    body { font-family: system-ui; max-width: 600px; margin: 40px auto; padding: 20px; background: #0E1B3D; color: #fff; }
+    .card { background: #14254A; border-radius: 12px; padding: 24px; margin: 16px 0; }
+    canvas { border: 1px solid #2A3F6B; border-radius: 8px; background: #0E1B3D; }
+    button { background: #D4B24E; color: #0E1B3D; border: none; padding: 12px 24px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 16px; }
+    button:hover { background: #EBD48A; }
+    button:disabled { opacity: 0.5; cursor: not-allowed; }
+    h1 { color: #D4B24E; }
+    .status { color: #8AB4F8; font-size: 14px; margin-top: 8px; }
+  </style>
+</head>
+<body>
+  <h1>Hairzen Favicon PNG Generator</h1>
+  <p>SVG'i yükle, canvas'a çiz, PNG olarak indir.</p>
+
+  <div class="card">
+    <h3>apple-touch-icon.png (180×180)</h3>
+    <canvas id="canvas180" width="180" height="180"></canvas>
+    <br><br>
+    <button id="btn180" onclick="generate(180, 'apple-touch-icon.png')">Oluştur ve İndir</button>
+    <div id="status180" class="status"></div>
+  </div>
+
+  <div class="card">
+    <h3>favicon-32.png (32×32)</h3>
+    <canvas id="canvas32" width="32" height="32"></canvas>
+    <br><br>
+    <button id="btn32" onclick="generate(32, 'favicon-32.png')">Oluştur ve İndir</button>
+    <div id="status32" class="status"></div>
+  </div>
+
+  <script>
+    async function generate(size, filename) {
+      const canvas = document.getElementById(`canvas${size}`);
+      const ctx = canvas.getContext('2d');
+      const btn = document.getElementById(`btn${size}`);
+      const status = document.getElementById(`status${size}`);
+
+      btn.disabled = true;
+      status.textContent = 'SVG yükleniyor...';
+
+      try {
+        const response = await fetch('favicon.svg');
+        const svgText = await response.text();
+
+        const img = new Image();
+        img.onload = () => {
+          ctx.clearRect(0, 0, size, size);
+          ctx.drawImage(img, 0, 0, size, size);
+
+          canvas.toBlob(blob => {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            a.click();
+            URL.revokeObjectURL(url);
+            status.textContent = `✓ ${filename} indirildi`;
+            btn.disabled = false;
+          }, 'image/png');
+        };
+        img.onerror = () => {
+          status.textContent = '✗ SVG yüklenemedi';
+          btn.disabled = false;
+        };
+        img.src = 'data:image/svg+xml;base64,' + btoa(svgText);
+      } catch (e) {
+        status.textContent = '✗ Hata: ' + e.message;
+        btn.disabled = false;
+      }
+    }
+  </script>
+</body>
+</html>

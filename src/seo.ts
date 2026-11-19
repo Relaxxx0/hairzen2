@@ -77,6 +77,30 @@ function structuredData(lang: Lang, site: string, pageId: PageId | null) {
     provider: content ? { "@id": clinic["@id"] } : undefined,
   };
   const graph: object[] = [clinic, page, faq];
+
+  // SiteNavigationElement — Google menü linklerini "site navigasyonu" olarak anlasın diye
+  // Anchor linkler (#ekimci) yerine GERÇEK ayrı sayfa URL'lerini veriyoruz (sitelink için)
+  const servicePages: { id: PageId; labelKey: string }[] = [
+    { id: "fue", labelKey: "FUE Saç Ekimi" },
+    { id: "dhi", labelKey: "DHI Saç Ekimi" },
+    { id: "beard", labelKey: "Sakal Ekimi" },
+    { id: "women", labelKey: "Kadın Saç Ekimi" },
+    { id: "prices", labelKey: "Fiyatlar" },
+  ];
+  const navItems = servicePages.map((sp, i) => ({
+    "@type": "ListItem",
+    position: i + 1,
+    name: tr(lang, sp.labelKey),
+    item: url + pagePath(lang, sp.id).replace(/^\//, ""), // leading slash kaldır (url zaten / ile bitiyor)
+  }));
+  graph.push({
+    "@type": "SiteNavigationElement",
+    name: "Ana Menü",
+    url: url,
+    mainEntityOfPage: { "@type": "WebPage", "@id": url },
+    navigationItems: navItems,
+  });
+
   if (content) graph.push({
     "@type": "BreadcrumbList",
     itemListElement: [

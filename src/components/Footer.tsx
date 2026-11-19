@@ -3,8 +3,12 @@ import { ADDRESS, PHONE_DISPLAY, SOCIAL, WHATSAPP_NUMBER, waLink } from "../data
 import { ClockIcon, InstagramIcon, PhoneIcon, TikTokIcon, WhatsAppIcon, YouTubeIcon } from "./Icons";
 import { useLang } from "../i18n";
 import { SERVICE_PAGE, pagePath } from "../content/services";
+import { Map, MapMarker, MarkerContent, MarkerTooltip } from "./MapLibreMap";
 
 const ADDRESS_Q = encodeURIComponent(ADDRESS).replace(/%2F/g, "/");
+
+// Hairzen Clinic coordinates
+const CLINIC_COORDS: [number, number] = [29.1037697, 40.9914181];
 
 function LocationCard() {
   const { t } = useLang();
@@ -13,22 +17,54 @@ function LocationCard() {
   const onKey = (e: KeyboardEvent) => {
     if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(); }
   };
+
   return (
     <div className="loc">
       <div className="loc-card" role="button" tabIndex={0} aria-expanded={open}
         aria-label={t(open ? "Konum kartını kapat" : "Konum kartını aç")} onClick={toggle} onKeyDown={onKey}>
         <span className="loc-map" aria-hidden="true">
-          <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice">
-            <rect width="320" height="200" fill="#111d3e" />
-            <g fill="rgba(255,255,255,.07)" stroke="rgba(255,255,255,.12)"><rect x="22" y="108" width="52" height="54" rx="6" /><rect x="128" y="34" width="42" height="40" rx="6" /><rect x="262" y="58" width="34" height="68" rx="6" /><rect x="250" y="150" width="58" height="44" rx="6" /><rect x="10" y="150" width="28" height="30" rx="5" /><rect x="200" y="14" width="44" height="22" rx="5" /></g>
-            <g stroke="rgba(255,255,255,.22)" strokeLinecap="round"><path d="M0 90h320" strokeWidth="5" /><path d="M0 146h300" strokeWidth="4" /><path d="M106 0v200M236 0v170" strokeWidth="3" /><path d="M58 0v90M168 90v110M196 0v44" strokeWidth="1.5" /><path d="M0 60h140M180 120h140" strokeWidth="1.2" /></g>
-          </svg>
-          <iframe loading="lazy" src={`https://www.google.com/maps?q=${ADDRESS_Q}&z=15&hl=tr&output=embed`}
-            title={t("Hairzen Klinik konumu, Google Haritalar")} tabIndex={-1} referrerPolicy="no-referrer-when-downgrade" />
+          {open && (
+            <div style={{ width: "100%", height: 280, minHeight: 280 }}>
+              <Map
+                initialViewState={{
+                  center: CLINIC_COORDS,
+                  zoom: 15,
+                }}
+                className="w-full h-full"
+              >
+                <MapMarker longitude={CLINIC_COORDS[0]} latitude={CLINIC_COORDS[1]}>
+                  <MarkerContent>
+                    <div
+                      style={{
+                        width: 14,
+                        height: 14,
+                        borderRadius: "50%",
+                        background: "#D4B24E",
+                        border: "3px solid #0E1B3D",
+                        boxShadow: "0 2px 8px rgba(0,0,0,0.4)",
+                      }}
+                    />
+                  </MarkerContent>
+                  <MarkerTooltip>
+                    <div style={{ padding: "4px 8px", whiteSpace: "nowrap" }}>
+                      <strong>Hairzen Clinic</strong>
+                    </div>
+                  </MarkerTooltip>
+                </MapMarker>
+              </Map>
+            </div>
+          )}
+          {!open && (
+            <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice">
+              <rect width="320" height="200" fill="#111d3e" />
+              <g fill="rgba(255,255,255,.07)" stroke="rgba(255,255,255,.12)"><rect x="22" y="108" width="52" height="54" rx="6" /><rect x="128" y="34" width="42" height="40" rx="6" /><rect x="262" y="58" width="34" height="68" rx="6" /><rect x="250" y="150" width="58" height="44" rx="6" /><rect x="10" y="150" width="28" height="30" rx="5" /><rect x="200" y="14" width="44" height="22" rx="5" /></g>
+              <g stroke="rgba(255,255,255,.22)" strokeLinecap="round"><path d="M0 90h320" strokeWidth="5" /><path d="M0 146h300" strokeWidth="4" /><path d="M106 0v200M236 0v170" strokeWidth="3" /><path d="M58 0v90M168 90v110M196 0v44" strokeWidth="1.5" /><path d="M0 60h140M180 120h140" strokeWidth="1.2" /></g>
+            </svg>
+          )}
+          <span className="loc-info"><b>{t("Ataşehir, İstanbul")}</b><small>{ADDRESS}</small></span>
         </span>
-        <span className="loc-info"><b>{t("Ataşehir, İstanbul")}</b><small>{ADDRESS}</small></span>
+        <a className="loc-dir" href={`https://www.google.com/maps/search/?api=1&query=${ADDRESS_Q}`} target="_blank" rel="noopener">{t("Google Haritalar'da yol tarifi al")}</a>
       </div>
-      <a className="loc-dir" href={`https://www.google.com/maps/search/?api=1&query=${ADDRESS_Q}`} target="_blank" rel="noopener">{t("Google Haritalar'da yol tarifi al")}</a>
     </div>
   );
 }
